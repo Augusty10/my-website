@@ -563,13 +563,13 @@ const Experience = () => {
   const experiences = [
     {
       period: '2024 — Now',
-      role: 'Master of Computer Application (MCA) ',
+      role: 'Master of Computer Applications (MCA) ',
       company: 'Pt. Ravishankar Shukla University',
       desc: 'My foundational stage focuses on core computer science principles and basic programming. Here, I showcase projects that demonstrate my grasp of Data Structures & Algorithms, Object-Oriented Programming, and fundamental database concepts, reflecting my initial steps in software development',
     },
     {
       period: '2021 — 2024',
-      role: 'Bachlor of Computer Application (BCA)  ',
+      role: 'Bachelor of Computer Applications (BCA)  ',
       company: 'Pt.  Ravishankar Shukla University',
       desc: 'Gained foundational knowledge in programming, databases, and web development',
     },
