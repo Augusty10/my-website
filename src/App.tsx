@@ -1,11 +1,9 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
+
 
 import { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useSpring, useTransform } from 'motion/react';
 import { ArrowUpRight, Twitter, Linkedin, Github, FileText, Download, Mail, MapPin } from 'lucide-react';
+
 
 // --- Custom Cursor Component ---
 const CustomCursor = () => {
@@ -454,6 +452,8 @@ const Projects = () => {
       title: 'lms Backend with Razorpay',
       desc: 'Learning Management System (LMS) Backend with Secure Razorpay Integration.',
       tags: ['React', 'Razorpay', 'MongoDB', 'API'],
+      link: 'https://github.com/Augusty10/lms',
+      docLink: '#',
       className: 'col-span-1 lg:col-span-7 min-h-[360px]',
     },
     {
@@ -461,19 +461,22 @@ const Projects = () => {
       title: 'Kola Edit ',
       desc: 'Built a professional portfolio website for Kola Edit Video Editor Agency, enabling them to effectively showcase their video editing expertise and attract new clients.',
       tags: ['React', 'javaScript', 'tailwind'],
+      link: 'https://kolaedit.com',
+      docLink: '#',
       className: 'col-span-1 lg:col-span-5 min-h-[360px] bg-rust text-paper',
       isRust: true,
     },
+
     {
       id: '003',
       title: 'Resume Screening ',
       desc: 'Building the Screen Resume app to modernize HR candidate evaluation, focusing on dynamic profiles over static resumes. An ongoing project highlighting my development skills and problem-solving approach.',
       tags: ['Python ', 'PostgreSQL'],
+      link: 'https://github.com/Augusty10',
+      docLink: '#',
       className: 'col-span-1 lg:col-span-4 min-h-[280px] bg-ink text-paper',
       isInk: true,
     },
-   
-   
   ];
 
   const handleShare = (platform: 'twitter' | 'linkedin', title: string) => {
@@ -514,6 +517,7 @@ const Projects = () => {
               <div className="flex justify-between items-start">
                 <span className={`text-[0.62rem] tracking-widest uppercase ${proj.isRust || proj.isInk ? 'text-paper' : 'text-muted'}`}>{proj.id}</span>
                 <div className="flex gap-2">
+                  
                   <button
                     onClick={(e) => { e.stopPropagation(); handleShare('twitter', proj.title); }}
                     className={`w-9 h-9 border border-black/12 flex items-center justify-center transition-all duration-200 hover:bg-rust hover:border-rust hover:text-paper ${proj.isRust ? 'bg-white/15 border-transparent text-paper' : proj.isInk ? 'bg-white/8 border-transparent text-paper' : 'text-ink'}`}
@@ -521,6 +525,7 @@ const Projects = () => {
                   >
                     <Twitter size={16} />
                   </button>
+
                   <button
                     onClick={(e) => { e.stopPropagation(); handleShare('linkedin', proj.title); }}
                     className={`w-9 h-9 border border-black/12 flex items-center justify-center transition-all duration-200 hover:bg-rust hover:border-rust hover:text-paper ${proj.isRust ? 'bg-white/15 border-transparent text-paper' : proj.isInk ? 'bg-white/8 border-transparent text-paper' : 'text-ink'}`}
@@ -528,9 +533,26 @@ const Projects = () => {
                   >
                     <Linkedin size={16} />
                   </button>
-                  <div className={`w-9 h-9 border border-black/12 flex items-center justify-center transition-all duration-200 group-hover:bg-rust group-hover:border-rust group-hover:text-paper ${proj.isRust ? 'bg-white/15 border-transparent text-paper' : proj.isInk ? 'bg-white/8 border-transparent text-paper' : 'text-ink'}`}>
+                  <a
+                    href={proj.docLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className={`w-9 h-9 border border-black/12 flex items-center justify-center transition-all duration-200 hover:bg-rust hover:border-rust hover:text-paper ${proj.isRust ? 'bg-white/15 border-transparent text-paper' : proj.isInk ? 'bg-white/8 border-transparent text-paper' : 'text-ink'}`}
+                    title="View Documentation"
+                  >
+                    <FileText size={16} />
+                  </a>
+                  <a
+                    href={proj.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className={`w-9 h-9 border border-black/12 flex items-center justify-center transition-all duration-200 group-hover:bg-rust group-hover:border-rust group-hover:text-paper ${proj.isRust ? 'bg-white/15 border-transparent text-paper' : proj.isInk ? 'bg-white/8 border-transparent text-paper' : 'text-ink'}`}
+                    title="View Project"
+                  >
                     <ArrowUpRight size={18} />
-                  </div>
+                  </a>
                 </div>
               </div>
               <div>
@@ -573,8 +595,6 @@ const Experience = () => {
       company: 'Pt.  Ravishankar Shukla University',
       desc: 'Gained foundational knowledge in programming, databases, and web development',
     },
-
-   
   ];
 
   return (
