@@ -449,11 +449,11 @@ const Projects = () => {
   const projects = [
     {
       id: '001',
-      title: 'lms Backend with Razorpay',
-      desc: 'Learning Management System (LMS) Backend with Secure Razorpay Integration.',
-      tags: ['React', 'Razorpay', 'MongoDB', 'API'],
-      link: 'https://github.com/Augusty10/lms',
-      docLink: '#',
+      title: 'Git Hub Repo Explorer',
+      desc: 'The GitHub Repo Explorer is an interactive dashboard designed to help developers, researchers, and opne-source enthusiasts discover and analyze trending GitHub repositories.',
+      tags: ['React', 'Type Script ',' Git Hub REST API'],
+      link: 'https://book-gitrepo.netlify.app/ ',
+      docLink: 'https://github.com/Augusty10/Product/blob/main/Git%20Hub%20Doc.pdf ',
       className: 'col-span-1 lg:col-span-7 min-h-[360px]',
     },
     {
