@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useSpring, useTransform } from 'motion/react';
 import { ArrowUpRight, Twitter, Linkedin, Github, FileText, Download, Mail, MapPin } from 'lucide-react';
 import Blog from './blog';
+import { Menu, X } from "lucide-react";
+
 
 // --- Custom Cursor Component ---
 const CustomCursor = () => {
@@ -259,23 +261,103 @@ const ContactCanvas = () => {
 
 // --- Section Components ---
 
-const Navbar = () => (
-  <nav className="fixed top-0 left-0 right-0 z-500 px-6 md:px-14 py-7 flex items-center justify-between mix-blend-multiply">
-    <div className="font-serif italic text-2xl tracking-tight">Dhanraj Sahu</div>
-    <ul className="hidden md:flex gap-12 list-none">
-      {['About', 'Blog' , 'Projects', 'Education', 'Contact'].map((item) => (
-        <li key={item}>
-          <a
-            href={`#${item.toLowerCase()}`}
-            className="text-[0.72rem] tracking-[0.18em] uppercase text-muted hover:text-rust transition-colors duration-250"
-          >
-            {item}
-          </a>
-        </li>
-      ))}
-    </ul>
-  </nav>
-);
+// const Navbar = () => (
+//   <nav className="fixed top-0 left-0 right-0 z-500 px-6 md:px-14 py-7 flex items-center justify-between mix-blend-multiply">
+//     <div className="font-serif italic text-2xl tracking-tight">Dhanraj Sahu</div>
+//     <ul className="hidden md:flex gap-12 list-none">
+//       {['About', 'Blog' , 'Projects', 'Education', 'Contact'].map((item) => (
+//         <li key={item}>
+//           <a
+//             href={`#${item.toLowerCase()}`}
+//             className="text-[0.72rem] tracking-[0.18em] uppercase text-muted hover:text-rust transition-colors duration-250"
+//           >
+//             {item}
+//           </a>
+//         </li>
+//       ))}
+//     </ul>
+//   </nav>
+// );
+
+const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const navItems = [
+    "About",
+    "Projects",
+    "Education",
+    "Blog",
+    "Contact",
+  ];
+
+  return (
+    <nav className="fixed top-0 left-0 right-0 z-50 px-6 md:px-14 py-7 flex items-center justify-between mix-blend-multiply">
+      {/* Logo */}
+      <div className="font-serif italic text-2xl tracking-tight">
+        Dhanraj Sahu
+      </div>
+
+      {/* Desktop Menu */}
+      <ul className="hidden md:flex gap-12 list-none">
+        {navItems.map((item) => (
+          <li key={item}>
+            <a
+              href={`#${item.toLowerCase()}`}
+              className="text-[0.72rem] tracking-[0.18em] uppercase text-muted hover:text-rust transition-colors duration-250"
+            >
+              {item}
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      {/* Mobile Menu Button */}
+      <button
+        className="md:hidden flex items-center justify-center
+        w-12 h-12 rounded-2xl
+        bg-cream/80 backdrop-blur-md
+        border border-black/10 shadow-lg"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        {isOpen ? <X size={22} /> : <Menu size={22} />}
+      </button>
+
+      {/* Mobile Menu */}
+      <div
+        className={`fixed top-20 right-4 w-64
+        bg-cream/90 backdrop-blur-xl
+        border border-black/10
+        rounded-3xl shadow-lg
+        transition-all duration-300 ease-out
+        md:hidden z-[999]
+        ${
+          isOpen
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 -translate-y-4 pointer-events-none"
+        }`}
+      >
+        <ul className="flex flex-col p-6 gap-5">
+          {navItems.map((item) => (
+            <li key={item}>
+              <a
+                href={`#${item.toLowerCase()}`}
+                onClick={() => setIsOpen(false)}
+                className="block text-[0.75rem]
+                tracking-[0.18em]
+                uppercase
+                text-muted
+                hover:text-rust
+                transition-colors duration-300"
+              >
+                {item}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </nav>
+  );
+};
 
 
 const Hero = () => (
