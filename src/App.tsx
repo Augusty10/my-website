@@ -691,7 +691,7 @@ const Contact = () => {
                   </a>
                 ))}
                 <a
-                  href="/DhanrajsahuOg.pdf"
+                  href="/Dhanraj-Sahucv.pdf"
                   download="Dhanraj_Sahu_Resume.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
