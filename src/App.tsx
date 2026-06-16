@@ -1,9 +1,8 @@
 
-
 import { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useSpring, useTransform } from 'motion/react';
 import { ArrowUpRight, Twitter, Linkedin, Github, FileText, Download, Mail, MapPin } from 'lucide-react';
-
+import Blog from './blog';
 
 // --- Custom Cursor Component ---
 const CustomCursor = () => {
@@ -264,7 +263,7 @@ const Navbar = () => (
   <nav className="fixed top-0 left-0 right-0 z-500 px-6 md:px-14 py-7 flex items-center justify-between mix-blend-multiply">
     <div className="font-serif italic text-2xl tracking-tight">Dhanraj Sahu</div>
     <ul className="hidden md:flex gap-12 list-none">
-      {['About', 'Projects', 'Education', 'Contact'].map((item) => (
+      {['About', 'Blog' , 'Projects', 'Education', 'Contact'].map((item) => (
         <li key={item}>
           <a
             href={`#${item.toLowerCase()}`}
@@ -277,6 +276,7 @@ const Navbar = () => (
     </ul>
   </nav>
 );
+
 
 const Hero = () => (
   <section className="min-height-[100vh] grid grid-cols-1 lg:grid-cols-2 relative overflow-hidden">
@@ -730,6 +730,7 @@ export default function App() {
       <Marquee />
       <About />
       <Projects />
+      <Blog/>
       <Experience />
       <Contact />
       <Footer />
