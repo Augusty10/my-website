@@ -1,44 +1,17 @@
 import { useEffect, useState } from "react";
-
-interface Blog {
-  title: string;
-  link: string;
-  pubDate: string;
-  thumbnail?: string;
-  description: string;
-}
-
 export default function Blog() {
-  const [blogs, setBlogs] = useState<Blog[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-  async function loadBlogs() {
-    try {
-      const response = await fetch(
-        "https://api.rss2json.com/v1/api.json?rss_url=https://blog.dhanrajsahu.com/rss.xml"
-      );
-
-      const data = await response.json();
-
-      console.log("Response:", response.status);
-      console.log("RSS Data:", data);
-
-      if (data.status !== "ok") {
-        throw new Error(data.message);
-      }
-
-      setBlogs(data.items?.slice(0, 6) || []);
-    } catch (err) {
-      console.error("Failed to fetch blogs:", err);
-      setBlogs([]);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  loadBlogs();
-}, []);
+  const blogs = [
+    {
+      title: "JWT Authentication: Access Token and Refresh Token",
+      link: "https://blog.dhanrajsahu.com/jwt-authentication-access-token-and-refresh-token-flow-explained?utm_source=hashnode&utm_medium=feed",
+      pubDate: "2026-05-16",
+      description:
+        "In today's interconnected digital landscape, secure and seamless user authentication is paramount. Behind every successful login and persistent session lies a sophisticated interplay of cryptographic tokens.",
+      thumbnail:
+        "/thumbnail.png",
+    },
+   
+  ];
 
   return (
     <section
@@ -54,17 +27,12 @@ export default function Blog() {
         <h2 className="font-serif text-[clamp(2.5rem,5vw,4.5rem)] font-black leading-none tracking-tight">
           Latest <em className="italic text-rust">Blogs</em>
         </h2>
+
+        <p className="mt-4 max-w-2xl text-gray-600">
+          I share my journey in Full Stack Development, JavaScript, React,
+          project building, and continuous learning.
+        </p>
       </div>
-
-      {/* Loading */}
-      {loading && (
-        <p className="text-lg">Loading blogs...</p>
-      )}
-
-      {/* Empty State */}
-      {!loading && blogs.length === 0 && (
-        <p>No blogs found.</p>
-      )}
 
       {/* Blog Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -77,13 +45,11 @@ export default function Blog() {
             className="group bg-white border border-black/10 overflow-hidden hover:-translate-y-2 hover:shadow-xl transition-all duration-300"
           >
             {/* Thumbnail */}
-            {blog.thumbnail && (
-              <img
-                src={blog.thumbnail}
-                alt={blog.title}
-                className="w-full h-52 object-cover"
-              />
-            )}
+            <img
+              src={blog.thumbnail}
+              alt={blog.title}
+              className="w-full h-52 object-cover"
+            />
 
             <div className="p-6">
               {/* Date */}
@@ -97,12 +63,9 @@ export default function Blog() {
               </h3>
 
               {/* Description */}
-              <p
-                className="text-gray-600 text-sm line-clamp-3"
-                dangerouslySetInnerHTML={{
-                  __html: blog.description,
-                }}
-              />
+              <p className="text-gray-600 text-sm line-clamp-3">
+                {blog.description}
+              </p>
 
               <span className="inline-block mt-5 text-sm uppercase tracking-widest text-rust">
                 Read Article →
@@ -110,6 +73,18 @@ export default function Blog() {
             </div>
           </a>
         ))}
+      </div>
+
+      {/* View All Blogs Button */}
+      <div className="mt-12 text-center">
+        <a
+          href="https://blog.dhanrajsahu.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center px-8 py-3 border-2 border-black font-medium hover:bg-black hover:text-white transition-all duration-300"
+        >
+          View All Blogs
+        </a>
       </div>
     </section>
   );
