@@ -301,6 +301,19 @@ const ContactCanvas = () => {
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const navItems = [
     "About",
@@ -311,9 +324,15 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 px-6 md:px-14 py-7 flex items-center justify-between mix-blend-multiply">
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 px-6 md:px-14 flex items-center justify-between transition-all duration-300 ${
+        isScrolled
+          ? "bg-paper/85 backdrop-blur-md border-b border-black/5 py-4.5 shadow-sm"
+          : "bg-transparent py-7"
+      }`}
+    >
       {/* Logo */}
-      <div className="font-serif italic text-2xl tracking-tight">
+      <div className="font-serif italic text-2xl tracking-tight text-ink">
         Dhanraj Sahu
       </div>
 
@@ -336,7 +355,7 @@ const Navbar = () => {
         className="md:hidden flex items-center justify-center
         w-12 h-12 rounded-2xl
         bg-cream/80 backdrop-blur-md
-        border border-black/10 shadow-lg"
+        border border-black/10 shadow-lg text-ink"
         onClick={() => setIsOpen(!isOpen)}
       >
         {isOpen ? <X size={22} /> : <Menu size={22} />}
@@ -345,7 +364,7 @@ const Navbar = () => {
       {/* Mobile Menu */}
       <div
         className={`fixed top-20 right-4 w-64
-        bg-cream/90 backdrop-blur-xl
+        bg-cream/95 backdrop-blur-xl
         border border-black/10
         rounded-3xl shadow-lg
         transition-all duration-300 ease-out
@@ -568,7 +587,6 @@ const Projects = () => {
       className: 'col-span-1 lg:col-span-5 min-h-[360px] bg-rust text-paper',
       isRust: true,
     },
-
     {
       id: '003',
       title: 'Resume Screening',
@@ -576,7 +594,35 @@ const Projects = () => {
       tags: ['Python', 'PostgreSQL'],
       link: 'https://github.com/Augusty10',
       docLink: '#',
-      className: 'col-span-1 lg:col-span-4 min-h-[280px] bg-ink text-paper',
+      className: 'col-span-1 lg:col-span-4 min-h-[300px] bg-ink text-paper',
+      isInk: true,
+    },
+    {
+      id: '004',
+      title: 'Noesis',
+      desc: 'An AI-powered semantic search and knowledge synthesis platform. It indexes multi-format documents and resolves complex conceptual queries in real-time.',
+      tags: ['Next.js', 'Python', 'Vector DB', 'LLMs'],
+      link: 'https://github.com/Augusty10',
+      docLink: '#',
+      className: 'col-span-1 lg:col-span-8 min-h-[300px]',
+    },
+    {
+      id: '005',
+      title: 'Viscas',
+      desc: 'A collaborative real-time visualization canvas designed for building interactive system flowcharts, database schemas, and UX wireframes.',
+      tags: ['React', 'TypeScript', 'WebSockets', 'HTML5 Canvas'],
+      link: 'https://github.com/Augusty10',
+      docLink: '#',
+      className: 'col-span-1 lg:col-span-6 min-h-[320px]',
+    },
+    {
+      id: '006',
+      title: 'ChaiGPT',
+      desc: 'A localized conversational AI assistant shell featuring custom persona configurations, response streaming, and encrypted browser session history.',
+      tags: ['React', 'Node.js', 'Gemini API', 'Tailwind CSS'],
+      link: 'https://github.com/Augusty10',
+      docLink: '#',
+      className: 'col-span-1 lg:col-span-6 min-h-[320px] bg-ink text-paper',
       isInk: true,
     },
   ];
