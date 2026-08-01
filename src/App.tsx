@@ -77,10 +77,12 @@ const HeroCanvas = () => {
 
     let animationFrameId: number;
     let t = 0;
+    const dpr = window.devicePixelRatio || 1;
 
     const resize = () => {
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
+      canvas.width = canvas.offsetWidth * dpr;
+      canvas.height = canvas.offsetHeight * dpr;
+      ctx.scale(dpr, dpr);
     };
 
     const blobs = [
@@ -91,13 +93,15 @@ const HeroCanvas = () => {
     ];
 
     const draw = () => {
+      const w = canvas.width / dpr;
+      const h = canvas.height / dpr;
       ctx.fillStyle = '#ede8da';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillRect(0, 0, w, h);
 
       blobs.forEach((b) => {
-        const bx = canvas.width * b.x + Math.sin(t * b.sp + b.ox) * 70;
-        const by = canvas.height * b.y + Math.cos(t * b.sp + b.oy) * 55;
-        const radius = canvas.width * b.r;
+        const bx = w * b.x + Math.sin(t * b.sp + b.ox) * 70;
+        const by = h * b.y + Math.cos(t * b.sp + b.oy) * 55;
+        const radius = w * b.r;
         const g = ctx.createRadialGradient(bx, by, 0, bx, by, radius);
         g.addColorStop(0, b.col + 'bb');
         g.addColorStop(1, b.col + '00');
@@ -109,10 +113,10 @@ const HeroCanvas = () => {
 
       ctx.strokeStyle = 'rgba(0,0,0,.03)';
       ctx.lineWidth = 1;
-      for (let y = 0; y < canvas.height; y += 5) {
+      for (let y = 0; y < h; y += 5) {
         ctx.beginPath();
         ctx.moveTo(0, y);
-        ctx.lineTo(canvas.width, y);
+        ctx.lineTo(w, y);
         ctx.stroke();
       }
 
@@ -143,27 +147,39 @@ const AboutCanvas = () => {
     if (!ctx) return;
 
     let animationFrameId: number;
-    const pts = Array.from({ length: 14 }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      vx: (Math.random() - 0.5) * 0.45,
-      vy: (Math.random() - 0.5) * 0.45,
-    }));
+    const dpr = window.devicePixelRatio || 1;
+    let pts: { x: number; y: number; vx: number; vy: number }[] = [];
 
     const resize = () => {
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
+      canvas.width = canvas.offsetWidth * dpr;
+      canvas.height = canvas.offsetHeight * dpr;
+      ctx.scale(dpr, dpr);
+
+      const w = canvas.offsetWidth;
+      const h = canvas.offsetHeight;
+      if (pts.length === 0) {
+        for (let i = 0; i < 14; i++) {
+          pts.push({
+            x: Math.random() * w,
+            y: Math.random() * h,
+            vx: (Math.random() - 0.5) * 0.45,
+            vy: (Math.random() - 0.5) * 0.45,
+          });
+        }
+      }
     };
 
     const draw = () => {
+      const w = canvas.width / dpr;
+      const h = canvas.height / dpr;
       ctx.fillStyle = '#0d0d0d';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillRect(0, 0, w, h);
 
       pts.forEach((p) => {
         p.x += p.vx;
         p.y += p.vy;
-        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+        if (p.x < 0 || p.x > w) p.vx *= -1;
+        if (p.y < 0 || p.y > h) p.vy *= -1;
       });
 
       for (let i = 0; i < pts.length; i++) {
@@ -216,19 +232,23 @@ const ContactCanvas = () => {
 
     let animationFrameId: number;
     let t = 0;
+    const dpr = window.devicePixelRatio || 1;
 
     const resize = () => {
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
+      canvas.width = canvas.offsetWidth * dpr;
+      canvas.height = canvas.offsetHeight * dpr;
+      ctx.scale(dpr, dpr);
     };
 
     const draw = () => {
+      const w = canvas.width / dpr;
+      const h = canvas.height / dpr;
       ctx.fillStyle = '#ede8da';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      const cx = canvas.width / 2;
-      const cy = canvas.height / 2;
+      ctx.fillRect(0, 0, w, h);
+      const cx = w / 2;
+      const cy = h / 2;
 
-      for (let r = 20; r < Math.max(canvas.width, canvas.height) * 1.2; r += 38) {
+      for (let r = 20; r < Math.max(w, h) * 1.2; r += 38) {
         ctx.beginPath();
         ctx.arc(cx, cy, r + Math.sin(t * 0.018 + r * 0.04) * 14, 0, Math.PI * 2);
         ctx.strokeStyle = `rgba(201,79,44,${0.05 + 0.03 * Math.sin(t * 0.012 + r * 0.03)})`;
@@ -238,8 +258,8 @@ const ContactCanvas = () => {
 
       ctx.strokeStyle = 'rgba(0,0,0,.05)';
       ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.moveTo(cx, 0); ctx.lineTo(cx, canvas.height); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(canvas.width, cy); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(cx, 0); ctx.lineTo(cx, h); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(w, cy); ctx.stroke();
       ctx.beginPath(); ctx.arc(cx, cy, 7, 0, Math.PI * 2); ctx.fillStyle = '#c94f2c'; ctx.fill();
 
       t++;
@@ -465,11 +485,11 @@ const About = () => {
   }, []);
 
   const skills = [
-    { name: 'TypeScript', pct: '', delay: 0.4 },
-    { name: 'ui/ux', pct: '', delay: 0.5 },
-    { name: 'Docker ', pct: '', delay: 0.6 },
-    { name: 'MERN', pct: '', delay: 0.7 },
-    { name: 'System Design  ', pct: '', delay: 0.8 },
+    { name: 'TypeScript', pct: '90%', delay: 0.4 },
+    { name: 'UI/UX Design', pct: '80%', delay: 0.5 },
+    { name: 'Docker', pct: '75%', delay: 0.6 },
+    { name: 'MERN Stack', pct: '85%', delay: 0.7 },
+    { name: 'System Design', pct: '80%', delay: 0.8 },
   ];
 
   return (
@@ -486,7 +506,7 @@ const About = () => {
             A builder<br />who <em className="italic text-rust">thinks</em><br />in systems.
           </h2>
           <p className="text-sm leading-loose text-muted mb-4 max-w-[420px]">
-            I'm Dhanraj —I am a dedicated Software Engineer completing my MCA, with a strong commitment to both the technical excellence and the practical output of my work. 
+            I'm Dhanraj, a dedicated Software Engineer completing my MCA, with a strong commitment to both technical excellence and the practical output of my work.
           </p>
           <p className="text-sm leading-loose text-muted mb-4 max-w-[420px]">
             My focus is on developing robust and user-centric applications, always striving for that seamless experience. I'm eager to contribute my skills to projects that prioritize both technical excellence and elegant functionality.
@@ -531,18 +551,18 @@ const Projects = () => {
   const projects = [
     {
       id: '001',
-      title: 'Git Hub Repo Explorer',
-      desc: 'The GitHub Repo Explorer is an interactive dashboard designed to help developers, researchers, and opne-source enthusiasts discover and analyze trending GitHub repositories.',
-      tags: ['React', 'Type Script ',' Git Hub REST API'],
-      link: 'https://book-gitrepo.netlify.app/ ',
-      docLink: 'https://github.com/Augusty10/Product/blob/main/Git%20Hub%20Doc.pdf ',
+      title: 'GitHub Repo Explorer',
+      desc: 'The GitHub Repo Explorer is an interactive dashboard designed to help developers, researchers, and open-source enthusiasts discover and analyze trending GitHub repositories.',
+      tags: ['React', 'TypeScript', 'GitHub REST API'],
+      link: 'https://book-gitrepo.netlify.app/',
+      docLink: 'https://github.com/Augusty10/Product/blob/main/Git%20Hub%20Doc.pdf',
       className: 'col-span-1 lg:col-span-7 min-h-[360px]',
     },
     {
       id: '002',
-      title: 'Kola Edit ',
+      title: 'Kola Edit',
       desc: 'Built a professional portfolio website for Kola Edit Video Editor Agency, enabling them to effectively showcase their video editing expertise and attract new clients.',
-      tags: ['React', 'javaScript', 'tailwind'],
+      tags: ['React', 'JavaScript', 'Tailwind CSS'],
       link: 'https://kolaedit.com',
       docLink: '#',
       className: 'col-span-1 lg:col-span-5 min-h-[360px] bg-rust text-paper',
@@ -551,9 +571,9 @@ const Projects = () => {
 
     {
       id: '003',
-      title: 'Resume Screening ',
+      title: 'Resume Screening',
       desc: 'Building the Screen Resume app to modernize HR candidate evaluation, focusing on dynamic profiles over static resumes. An ongoing project highlighting my development skills and problem-solving approach.',
-      tags: ['Python ', 'PostgreSQL'],
+      tags: ['Python', 'PostgreSQL'],
       link: 'https://github.com/Augusty10',
       docLink: '#',
       className: 'col-span-1 lg:col-span-4 min-h-[280px] bg-ink text-paper',
@@ -667,21 +687,21 @@ const Experience = () => {
   const experiences = [
     {
       period: '2024 — Now',
-      role: 'Master of Computer Applications (MCA) ',
+      role: 'Master of Computer Applications (MCA)',
       company: 'Pt. Ravishankar Shukla University',
       desc: 'My foundational stage focuses on core computer science principles and basic programming. Here, I showcase projects that demonstrate my grasp of Data Structures & Algorithms, Object-Oriented Programming, and fundamental database concepts, reflecting my initial steps in software development',
     },
     {
       period: '2021 — 2024',
-      role: 'Bachelor of Computer Applications (BCA)  ',
-      company: 'Pt.  Ravishankar Shukla University',
+      role: 'Bachelor of Computer Applications (BCA)',
+      company: 'Pt. Ravishankar Shukla University',
       desc: 'Gained foundational knowledge in programming, databases, and web development',
     },
   ];
 
   return (
     <section id="education" className="bg-ink px-6 md:px-14 py-30 relative overflow-hidden">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-serif font-black text-[28vw] text-white/2 whitespace-nowrap pointer-events-none tracking-tighter">EXP</div>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-serif font-black text-[28vw] text-white/2 whitespace-nowrap pointer-events-none tracking-tighter">EDU</div>
       <div className="text-[0.65rem] tracking-[0.2em] uppercase text-rust mb-4 relative z-1">03</div>
       <h2 className="font-serif text-[clamp(2.2rem,4vw,3.5rem)] font-black tracking-tight text-paper mb-20 relative z-1">
         Where I've<br /><em className="italic text-rust">been.</em>
